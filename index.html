@@ -9,55 +9,51 @@
   <style>
     /* === Paleta Jardín Vintage (Pastel) === */
     :root {
-      --bg: #f5ebe0;           /* Beige rosado */
-      --fg: #3e362f;           /* Marrón cálido oscuro - texto */
-      --accent: #b8c9a7;       /* Verde salvia pastel */
-      --accent-dark: #5a6b4a;  /* Verde salvia oscuro - títulos */
-      --border: #c9b8a3;       /* Marrón tierra claro */
-      --card-bg: #fffdf9;      /* Blanco roto */
+      --bg: #f5ebe0;
+      --fg: #3e362f;
+      --accent: #b8c9a7;
+      --accent-dark: #5a6b4a;
+      --border: #c9b8a3;
+      --card-bg: #fffdf9;
       --muted: rgba(62, 54, 47, 0.12);
-      --card-radius: 12px;
+      --card-radius: 16px;
       --shadow: 0 8px 30px rgba(62, 54, 47, 0.15);
       --shadow-hover: 0 20px 50px rgba(90, 107, 74, 0.25);
     }
 
-    /* === Amorphous Drifting Glow — Adaptado a pastel === */
+    /* === Amorphous Drifting Glow === */
     .liminal-bg {
-      position: fixed;
-      top: 0; left: 0;
+      position: fixed; top: 0; left: 0;
       width: 100%; height: 100%;
-      pointer-events: none;
-      z-index: -9999;
+      pointer-events: none; z-index: -9999;
       overflow: hidden;
     }
     .drift-glow {
       position: absolute;
-      width: 500px; height: 500px;
+      width: 600px; height: 600px;
       bottom: -200px; left: -200px;
-      opacity: 0.35;
-      filter: blur(60px);
+      opacity: 0.35; filter: blur(80px);
       mix-blend-mode: multiply;
-      animation: drift-br-tr 50s infinite alternate ease-in-out;
+      animation: drift-br-tr 60s infinite alternate ease-in-out;
       background:
-        radial-gradient(circle at 40% 30%, rgba(184, 201, 167, 0.5) 0%, transparent 50%),
-        radial-gradient(circle at 70% 60%, rgba(201, 184, 163, 0.4) 0%, transparent 60%),
-        radial-gradient(circle at 20% 80%, rgba(245, 235, 224, 0.35) 0%, transparent 70%);
+        radial-gradient(circle at 40% 30%, rgba(184, 201, 167, 0.6) 0%, transparent 50%),
+        radial-gradient(circle at 70% 60%, rgba(201, 184, 163, 0.5) 0%, transparent 60%),
+        radial-gradient(circle at 20% 80%, rgba(245, 235, 224, 0.4) 0%, transparent 70%);
     }
     @keyframes drift-br-tr {
       0% { transform: translate(0, 0); }
       100% { transform: translate(calc(100vw + 300px), calc(-100vh - 300px)); }
     }
 
-    /* === Loader pastel === */
+    /* === Loader (Overlay) === */
     .loader {
       position: fixed; inset: 0;
       display: flex; justify-content: center; align-items: center;
       background: var(--bg);
       z-index: 99999;
-      font-size: 1.1rem;
-      letter-spacing: 1px;
+      font-size: 1.1rem; letter-spacing: 1px;
       color: var(--fg);
-      transition: opacity .5s ease, visibility .5s ease;
+      transition: opacity .6s ease, visibility .6s ease;
       font-family: 'Unbounded', sans-serif;
     }
     .loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
@@ -84,510 +80,342 @@
     * { box-sizing: border-box; }
     html, body {
       height: 100%; margin: 0;
-      background: var(--bg);
-      color: var(--fg);
+      background: var(--bg); color: var(--fg);
       font-family: 'Unbounded', sans-serif;
-      position: relative;
-      z-index: 1;
-      line-height: 1.5;
+      position: relative; z-index: 1; line-height: 1.5;
     }
     .container {
-      max-width: 1200px;
-      margin: 0 auto;
+      max-width: 1100px; margin: 0 auto;
       padding: 60px 20px 100px;
-      position: relative;
-      z-index: 2;
+      position: relative; z-index: 2;
     }
 
-    /* === Banner / Header === */
-    header {
-      text-align: center;
-      padding: 40px 20px 30px;
-      position: relative;
+    /* === Banner === */
+    .banner {
+      width: 100%; height: 300px;
+      background-image: url('https://dayowen.github.io/assets/banner.jpeg');
+      background-size: cover; background-position: center;
+      display: flex; justify-content: center; align-items: center;
+      margin-bottom: 40px; border-radius: var(--card-radius);
+      overflow: hidden; position: relative;
+      box-shadow: var(--shadow); border: 2px solid var(--border);
     }
-    h1 {
-      margin: 0 0 10px;
-      font-size: 2.8rem;
-      color: var(--accent-dark);
-      text-shadow: 0 2px 4px var(--muted);
-    }
-    .subtitle {
-      font-size: 1rem;
-      opacity: 0.85;
-      color: var(--fg);
-      max-width: 600px;
-      margin: 0 auto;
+    .banner h1 {
+      font-size: 3.5em;
+      background-color: rgba(245, 235, 224, 0.9);
+      padding: 10px 24px; border: 2px solid var(--border);
+      border-radius: 12px; color: var(--fg);
+      backdrop-filter: blur(4px); text-shadow: none;
+      z-index: 2; margin: 0;
     }
 
     /* === Gallery Sections === */
-    .gallery-section {
-      margin: 60px 0;
-      scroll-margin-top: 40px;
-    }
+    .gallery-section { margin: 60px 0; scroll-margin-top: 40px; }
     .gallery-section h2 {
-      font-size: 1.5rem;
-      color: var(--accent-dark);
-      margin: 0 0 20px;
-      padding-bottom: 10px;
+      font-size: 1.6rem; color: var(--accent-dark);
+      margin: 0 0 24px; padding-bottom: 12px;
       border-bottom: 2px solid var(--border);
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      display: flex; align-items: center; gap: 10px;
     }
     .gallery-section h2::before {
-      content: "";
-      width: 8px; height: 8px;
-      background: var(--accent);
-      border-radius: 50%;
-      display: inline-block;
+      content: ""; width: 10px; height: 10px;
+      background: var(--accent); border-radius: 50%;
+      display: inline-block; box-shadow: 0 0 10px var(--accent);
     }
-
     .image-placeholder {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 18px;
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
     }
 
-    /* === Image Box (liminaal style + pastel) === */
+    /* === Image Box === */
     .image-box {
-      position: relative;
-      height: 280px;
-      border-radius: var(--card-radius);
-      overflow: hidden;
-      cursor: pointer;
-      background: var(--card-bg);
+      position: relative; height: 280px;
+      border-radius: var(--card-radius); overflow: hidden;
+      cursor: pointer; background: var(--card-bg);
       box-shadow: var(--shadow);
-      transition: transform .4s cubic-bezier(.2,.9,.2,1), box-shadow .4s;
+      transition: transform .45s cubic-bezier(.2,.9,.2,1), box-shadow .45s;
+      border: 1px solid var(--border);
     }
     .image-box img.thumb {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform .7s ease, filter .3s;
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      transition: transform .8s ease, filter .45s;
     }
     .image-box::before {
-      content: "";
-      position: absolute; inset: 0;
+      content: ""; position: absolute; inset: 0;
       z-index: 1; pointer-events: none;
       background:
-        radial-gradient(ellipse at 30% 20%, rgba(184, 201, 167, 0.08) 0%, transparent 35%),
-        linear-gradient(180deg, rgba(255,253,249,0.1) 10%, rgba(62,54,47,0.15) 75%);
+        radial-gradient(ellipse at 30% 20%, rgba(184, 201, 167, 0.1) 0%, transparent 35%),
+        linear-gradient(180deg, rgba(255,253,249,0.1) 10%, rgba(62,54,47,0.2) 75%);
       mix-blend-mode: multiply;
     }
     .image-box::after {
-      content: "";
-      position: absolute; inset: 0;
+      content: ""; position: absolute; inset: 0;
       z-index: 2; pointer-events: none;
       background-image:
-        linear-gradient(transparent 85%, rgba(62,54,47,0.06) 100%),
-        repeating-linear-gradient(90deg, rgba(201,184,163,0.04) 0 1px, transparent 1px 5px);
-      opacity: .8;
-      mix-blend-mode: overlay;
-      transition: opacity .4s;
+        linear-gradient(transparent 85%, rgba(62,54,47,0.08) 100%),
+        repeating-linear-gradient(90deg, rgba(201,184,163,0.05) 0 1px, transparent 1px 5px);
+      opacity: .8; mix-blend-mode: overlay; transition: opacity .5s;
     }
     .image-box .meta {
-      position: absolute;
-      left: 0; right: 0; bottom: 0;
-      padding: 14px 16px;
-      z-index: 4;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: linear-gradient(180deg, rgba(255,253,249,0), rgba(245,235,224,0.92));
-      transform: translateY(8px);
-      transition: transform .3s;
-      color: var(--fg);
-      border-top: 1px solid var(--border);
+      position: absolute; left: 0; right: 0; bottom: 0;
+      padding: 14px 16px; z-index: 4;
+      display: flex; justify-content: space-between; align-items: center;
+      background: linear-gradient(180deg, rgba(255,253,249,0), rgba(245,235,224,0.95));
+      transform: translateY(8px); transition: transform .36s;
+      color: var(--fg); border-top: 1px solid var(--border);
     }
-    .image-box .meta .title {
-      font-weight: 700;
-      font-size: 0.95rem;
-    }
-    .image-box .meta .sub {
-      font-size: 0.75rem;
-      opacity: 0.8;
-      color: var(--accent-dark);
-    }
+    .image-box .meta .title { font-weight: 700; font-size: 0.95rem; color: var(--accent-dark); }
+    .image-box .meta .sub { font-size: 0.75rem; opacity: 0.8; color: var(--fg); }
     .image-box:hover {
-      transform: scale(1.03) translateY(-3px);
-      box-shadow: var(--shadow-hover);
-      z-index: 10;
+      transform: scale(1.04) rotateX(2deg) rotateY(-1deg);
+      box-shadow: var(--shadow-hover); z-index: 10;
     }
-    .image-box:hover img.thumb {
-      transform: scale(1.06);
-    }
-    .image-box:hover .meta {
-      transform: translateY(0);
-    }
+    .image-box:hover img.thumb { transform: scale(1.08) translateY(-4px); }
+    .image-box:hover .meta { transform: translateY(0); }
 
     /* === Hover Preview === */
     .hover-preview {
-      position: fixed;
-      pointer-events: none;
-      z-index: 12000;
-      display: flex;
-      gap: 14px;
-      align-items: flex-start;
+      position: fixed; pointer-events: none; z-index: 12000;
+      display: flex; gap: 14px; align-items: flex-start;
       transform: translate3d(16px, 16px, 0) scale(.98);
       transition: opacity .1s linear, transform .1s linear;
-      opacity: 0;
-      visibility: hidden;
-      max-width: 440px;
-      filter: drop-shadow(0 12px 35px rgba(62, 54, 47, 0.25));
+      opacity: 0; visibility: hidden; max-width: 440px;
+      filter: drop-shadow(0 12px 35px rgba(62, 54, 47, 0.2));
     }
-    .hover-preview.active {
-      opacity: 1;
-      visibility: visible;
-      transform: translate3d(16px, 16px, 0) scale(1);
-    }
+    .hover-preview.active { opacity: 1; visibility: visible; transform: translate3d(16px, 16px, 0) scale(1); }
     .hover-preview .preview-thumb {
-      width: 190px; height: 130px;
-      border-radius: 10px;
-      overflow: hidden;
-      background: var(--card-bg);
-      flex-shrink: 0;
-      border: 1px solid var(--border);
+      width: 190px; height: 130px; border-radius: 10px;
+      overflow: hidden; background: var(--card-bg);
+      flex-shrink: 0; border: 1px solid var(--border);
     }
-    .hover-preview .preview-thumb img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      display: block;
-    }
+    .hover-preview .preview-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .hover-preview .preview-meta {
-      background: var(--card-bg);
-      padding: 12px 14px;
-      border-radius: 10px;
-      color: var(--fg);
-      max-width: 220px;
-      border: 1px solid var(--border);
+      background: var(--card-bg); padding: 14px; border-radius: 10px;
+      color: var(--fg); max-width: 220px; border: 1px solid var(--border);
       box-shadow: var(--shadow);
     }
-    .hover-preview .preview-meta h4 {
-      margin: 0 0 6px;
-      font-size: 1rem;
-      color: var(--accent-dark);
-    }
-    .hover-preview .preview-meta p {
-      margin: 0;
-      font-size: 0.85rem;
-      opacity: 0.9;
-      line-height: 1.4;
-    }
+    .hover-preview .preview-meta h4 { margin: 0 0 6px; font-size: 1rem; color: var(--accent-dark); }
+    .hover-preview .preview-meta p { margin: 0; font-size: 0.85rem; opacity: 0.9; line-height: 1.4; }
 
-    /* === Popup Modal === */
+    /* === Popup Modal (Image) === */
     .popup {
-      position: fixed;
-      inset: 0;
-      background: rgba(245, 235, 224, 0.94);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity .25s;
-      z-index: 10000;
-      backdrop-filter: blur(4px);
+      position: fixed; inset: 0;
+      background: rgba(245, 235, 224, 0.92);
+      display: flex; justify-content: center; align-items: center;
+      opacity: 0; pointer-events: none; transition: opacity .3s;
+      z-index: 10000; backdrop-filter: blur(6px);
     }
     .popup.active { opacity: 1; pointer-events: auto; }
     .popup-inner {
-      max-width: 950px;
-      width: calc(100% - 40px);
-      margin: 20px;
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 25px 80px rgba(62, 54, 47, 0.3);
-      transform: translateY(12px);
-      transition: transform .2s;
-      background: var(--card-bg);
-      border: 2px solid var(--border);
+      max-width: 900px; width: calc(100% - 40px); margin: 20px;
+      border-radius: 16px; overflow: hidden;
+      box-shadow: 0 25px 80px rgba(62, 54, 47, 0.35);
+      transform: translateY(15px); transition: transform .25s;
+      background: var(--card-bg); border: 2px solid var(--border);
     }
     .popup.active .popup-inner { transform: translateY(0); }
-    .popup-content {
-      padding: 20px;
-      text-align: center;
-      color: var(--fg);
-    }
+    .popup-content { padding: 20px; text-align: center; color: var(--fg); }
     .popup-content img {
-      width: 100%;
-      height: auto;
-      max-height: 65vh;
-      object-fit: contain;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-      background: var(--bg);
+      width: 100%; height: auto; max-height: 65vh; object-fit: contain;
+      border-radius: 8px; border: 1px solid var(--border); background: var(--bg);
     }
-    .popup-content h3 {
-      margin: 16px 0 8px;
-      font-size: 1.3rem;
-      color: var(--accent-dark);
-    }
-    .popup-content p {
-      margin: 0;
-      opacity: 0.9;
-      font-size: 0.95rem;
-      line-height: 1.5;
-    }
+    .popup-content h3 { margin: 16px 0 8px; font-size: 1.4rem; color: var(--accent-dark); }
+    .popup-content p { margin: 0; opacity: 0.9; font-size: 1rem; line-height: 1.5; }
     .popup-close {
-      position: absolute;
-      top: 16px; right: 18px;
-      background: var(--accent);
-      border: none;
-      color: var(--fg);
-      padding: 8px 12px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-      font-size: 1rem;
-      transition: background .2s, transform .1s;
+      position: absolute; top: 16px; right: 18px;
+      background: var(--accent); border: none; color: var(--fg);
+      padding: 8px 12px; border-radius: 8px; cursor: pointer;
+      font-weight: 600; font-size: 1rem; transition: background .2s, transform .1s; z-index: 10001;
     }
-    .popup-close:hover {
-      background: var(--border);
-      transform: scale(1.05);
-    }
+    .popup-close:hover { background: var(--border); transform: scale(1.05); }
 
-    /* === Request Draw Button (Social Media replacement) === */
+    /* === CTA Section === */
     .cta-section {
-      text-align: center;
-      padding: 40px 20px;
-      margin: 40px 0;
+      text-align: center; padding: 50px 20px; margin: 60px 0;
       background: linear-gradient(135deg, var(--accent), var(--border));
-      border-radius: 16px;
-      border: 2px solid var(--border);
-      box-shadow: var(--shadow);
+      border-radius: var(--card-radius); border: 2px solid var(--border);
+      box-shadow: var(--shadow); position: relative; overflow: hidden;
     }
-    .cta-section h2 {
-      margin: 0 0 15px;
-      color: var(--fg);
-      font-size: 1.4rem;
-    }
+    .cta-section h2 { margin: 0 0 20px; color: var(--fg); font-size: 1.5rem; position: relative; z-index: 2; }
     .cta-btn {
-      display: inline-block;
-      padding: 12px 28px;
-      background: var(--card-bg);
-      color: var(--fg);
-      text-decoration: none;
-      border-radius: 10px;
-      font-weight: 700;
-      border: 2px solid var(--border);
-      transition: all .25s;
-      cursor: pointer;
+      display: inline-block; padding: 14px 32px;
+      background: var(--card-bg); color: var(--fg);
+      text-decoration: none; border-radius: 10px; font-weight: 700;
+      border: 2px solid var(--border); transition: all .25s;
+      cursor: pointer; position: relative; z-index: 2; font-family: 'Unbounded', sans-serif;
     }
     .cta-btn:hover {
-      background: var(--accent-dark);
-      color: var(--card-bg);
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-hover);
+      background: var(--accent-dark); color: var(--card-bg);
+      transform: translateY(-3px); box-shadow: var(--shadow-hover);
     }
 
     /* === Footer === */
     footer {
-      text-align: center;
-      padding: 30px 20px 50px;
-      color: var(--fg);
-      opacity: 0.85;
-      font-size: 0.9rem;
-      border-top: 1px solid var(--border);
-      margin-top: 40px;
+      text-align: center; padding: 30px 20px 50px;
+      color: var(--fg); opacity: 0.8; font-size: 0.9rem;
+      border-top: 1px solid var(--border); margin-top: 40px;
     }
 
-    /* === Loading state for galleries === */
+    /* === Loading state === */
     .gallery-loading {
-      text-align: center;
-      padding: 40px;
-      color: var(--accent-dark);
-      background: var(--card-bg);
-      border-radius: var(--card-radius);
-      border: 1px dashed var(--border);
-      grid-column: 1 / -1;
+      text-align: center; padding: 40px; color: var(--accent-dark);
+      background: var(--card-bg); border-radius: var(--card-radius);
+      border: 1px dashed var(--border); grid-column: 1 / -1;
     }
+
+    /* === Request Draw Popup === */
+    .popup-request {
+      position: fixed; inset: 0;
+      background: rgba(245, 235, 224, 0.96);
+      display: flex; justify-content: center; align-items: center;
+      opacity: 0; pointer-events: none; transition: opacity .25s;
+      z-index: 10001; backdrop-filter: blur(8px);
+    }
+    .popup-request.active { opacity: 1; pointer-events: auto; }
+    .popup-request .popup-inner {
+      max-width: 540px; width: calc(100% - 40px);
+      background: var(--card-bg); border: 2px solid var(--border);
+      border-radius: 16px; padding: 28px; box-shadow: var(--shadow-hover);
+      max-height: 85vh; overflow-y: auto;
+    }
+    .popup-request h2 {
+      margin: 0 0 24px; color: var(--accent-dark); font-size: 1.5rem;
+      text-align: center; padding-bottom: 14px; border-bottom: 2px solid var(--border);
+    }
+    .popup-request p {
+      margin: 0 0 18px; font-size: 0.9rem; line-height: 1.6;
+      color: var(--fg); text-align: justify;
+    }
+    .popup-request p strong {
+      color: var(--accent-dark); display: block; margin-bottom: 6px; font-size: 0.95rem;
+    }
+    .popup-request p + p { padding-top: 14px; border-top: 1px dashed var(--muted); }
+    .popup-request .button-container {
+      display: flex; justify-content: center; gap: 14px; margin-top: 28px;
+      flex-wrap: wrap; padding-top: 20px; border-top: 2px solid var(--border);
+    }
+    .popup-request .button-container a,
+    .popup-request .button-container button {
+      padding: 12px 24px; background: var(--accent); color: var(--fg);
+      border: none; border-radius: 8px; cursor: pointer;
+      font-weight: 600; font-size: 0.95rem; text-decoration: none;
+      transition: all .2s; font-family: 'Unbounded', sans-serif;
+    }
+    .popup-request .button-container a:hover,
+    .popup-request .button-container button:hover {
+      background: var(--border); transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(62, 54, 47, 0.15);
+    }
+    .popup-request .popup-inner::-webkit-scrollbar { width: 6px; }
+    .popup-request .popup-inner::-webkit-scrollbar-track { background: var(--bg); border-radius: 3px; }
+    .popup-request .popup-inner::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    .popup-request .popup-inner::-webkit-scrollbar-thumb:hover { background: var(--accent-dark); }
 
     /* === Responsive === */
     @media (max-width: 900px) {
-      h1 { font-size: 2.3rem; }
-      .image-placeholder { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
-      .image-box { height: 240px; }
+      h1 { font-size: 2.5rem; }
+      .banner { height: 220px; }
+      .banner h1 { font-size: 2.2rem; }
+      .image-placeholder { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+      .image-box { height: 220px; }
       .hover-preview { display: none !important; }
     }
     @media (max-width: 600px) {
       .container { padding: 40px 16px 80px; }
-      h1 { font-size: 2rem; }
+      .banner { height: 180px; border-radius: 12px; }
+      .banner h1 { font-size: 1.8rem; padding: 8px 16px; }
       .gallery-section h2 { font-size: 1.3rem; }
-      .image-placeholder { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
-      .image-box { height: 200px; }
+      .image-placeholder { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+      .image-box { height: 180px; }
+      .popup-request .popup-inner { padding: 20px; margin: 10px; }
+      .popup-request h2 { font-size: 1.3rem; }
+      .popup-request p { font-size: 0.85rem; }
+      .popup-request .button-container { flex-direction: column; align-items: center; }
+      .popup-request .button-container a,
+      .popup-request .button-container button { width: 100%; max-width: 220px; }
     }
-
-    /* === Request Draw Popup (manteniendo funcionalidad original) === */
-    .popup-request {
-      position: fixed;
-      inset: 0;
-      background: rgba(245, 235, 224, 0.96);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity .25s;
-      z-index: 10001;
-      backdrop-filter: blur(6px);
-    }
-    .popup-request.active { opacity: 1; pointer-events: auto; }
-    .popup-request .popup-inner {
-      max-width: 500px;
-      width: calc(100% - 40px);
-      background: var(--card-bg);
-      border: 2px solid var(--border);
-      border-radius: 16px;
-      padding: 24px;
-      box-shadow: var(--shadow-hover);
-    }
-    .popup-request h2 {
-      margin: 0 0 16px;
-      color: var(--accent-dark);
-      font-size: 1.4rem;
-    }
-    .popup-request p {
-      margin: 0 0 12px;
-      font-size: 0.9rem;
-      line-height: 1.5;
-      color: var(--fg);
-    }
-    .popup-request .button-container {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      margin-top: 20px;
-      flex-wrap: wrap;
-    }
-    .popup-request .button-container a,
-    .popup-request .button-container button {
-      padding: 10px 20px;
-      background: var(--accent);
-      color: var(--fg);
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-      text-decoration: none;
-      transition: background .2s;
-    }
-    .popup-request .button-container a:hover,
-    .popup-request .button-container button:hover {
-      background: var(--border);
-    }
-
-    /* Remove interfering pseudo-elements */
-    body::before, body::after,
-    .container::before, .container::after {
-      display: none !important;
-    }
+    body::before, body::after, .container::before, .container::after { display: none !important; }
   </style>
 </head>
 <body>
-  <!-- Amorphous drifting glow (pastel version) -->
-  <div class="liminal-bg">
-    <div class="drift-glow"></div>
-  </div>
+  <div class="liminal-bg"><div class="drift-glow"></div></div>
 
-  <!-- Loader -->
+  <!-- Loader Overlay -->
   <div class="loader" id="siteLoader" role="status">
     <div class="loader-inner">
       <div class="label">dayowen loading</div>
-      <div class="dots" aria-hidden="true">
-        <span></span><span></span><span></span>
-      </div>
+      <div class="dots" aria-hidden="true"><span></span><span></span><span></span></div>
     </div>
   </div>
 
   <div class="container" id="siteContent">
-    <!-- Header -->
-    <header>
-      <h1>Dayowen</h1>
-      <p class="subtitle">Digital art • Traditional pieces • Creative projects</p>
-    </header>
+    <div class="banner"><h1>Dayowen</h1></div>
 
-    <!-- Gallery Sections (loaded via GitHub API) -->
     <div class="gallery-section">
       <h2>Digital Art</h2>
-      <div id="gallery-digital" class="image-placeholder">
-        <div class="gallery-loading">Loading digital artworks...</div>
-      </div>
+      <div id="gallery-digital" class="image-placeholder"><div class="gallery-loading">Loading digital artworks...</div></div>
     </div>
-
     <div class="gallery-section">
       <h2>Traditional Art</h2>
-      <div id="gallery-traditional" class="image-placeholder">
-        <div class="gallery-loading">Loading traditional pieces...</div>
-      </div>
+      <div id="gallery-traditional" class="image-placeholder"><div class="gallery-loading">Loading traditional pieces...</div></div>
     </div>
-
     <div class="gallery-section">
       <h2>Special Projects</h2>
-      <div id="gallery-projects" class="image-placeholder">
-        <div class="gallery-loading">Loading projects...</div>
-      </div>
+      <div id="gallery-projects" class="image-placeholder"><div class="gallery-loading">Loading projects...</div></div>
     </div>
 
-    <!-- Request Draw CTA -->
     <div class="cta-section">
       <h2>✨ Want to commission a piece?</h2>
       <a href="javascript:void(0)" class="cta-btn" onclick="showRequestPopup()">Request Draw</a>
     </div>
 
-    <!-- Footer -->
-    <footer>
-      &copy; <span id="year"></span> Dayowen. All rights reserved.
-    </footer>
+    <footer>&copy; <span id="year"></span> Dayowen. All rights reserved.</footer>
   </div>
 
-  <!-- Hover Preview Element -->
   <div class="hover-preview" id="hoverPreview" aria-hidden="true">
-    <div class="preview-thumb">
-      <img id="previewThumb" src="" alt="" />
-    </div>
-    <div class="preview-meta">
-      <h4 id="previewTitle"></h4>
-      <p id="previewDesc"></p>
-    </div>
+    <div class="preview-thumb"><img id="previewThumb" src="" alt="" /></div>
+    <div class="preview-meta"><h4 id="previewTitle"></h4><p id="previewDesc"></p></div>
   </div>
 
-  <!-- Image Popup Modal -->
   <div class="popup" id="popup" aria-hidden="true">
     <div class="popup-inner" role="dialog" aria-modal="true">
       <button class="popup-close" id="popup-close" aria-label="Close">✕</button>
-      <div class="popup-content">
-        <img src="" alt="Full size" id="popup-img" />
-        <h3 id="popup-title"></h3>
-        <p id="popup-desc"></p>
-      </div>
+      <div class="popup-content"><img src="" alt="Full size" id="popup-img" /><h3 id="popup-title"></h3><p id="popup-desc"></p></div>
     </div>
   </div>
 
-  <!-- Request Draw Popup -->
   <div class="popup-request" id="popupRequest" aria-hidden="true">
     <div class="popup-inner" role="dialog" aria-modal="true">
       <button class="popup-close" onclick="hideRequestPopup()" aria-label="Close">✕</button>
       <h2>Request Draw</h2>
-      <p><strong>Consent:</strong> By sending an email, you agree that your address may be used for future correspondence. You can opt out anytime.</p>
-      <p><strong>No NSFW:</strong> Please do not send explicit content. We maintain a respectful environment.</p>
-      <p><strong>Privacy:</strong> Your information will never be shared without consent.</p>
+      <p><strong>Consent for Future Contacts:</strong> By sending an email, you agree that your email address may be used for future correspondence related to our services or activities. If you prefer not to receive future communications, you can opt out at any time.</p>
+      <p><strong>No NSFW Content:</strong> Please do not send any Not Safe For Work (NSFW) content, including explicit or inappropriate images, drawings, or messages. We maintain a respectful and professional environment for all correspondences.</p>
+      <p><strong>Confidentiality:</strong> We respect your privacy and will not share your email address or any personal information with third parties without your explicit consent, except as required by law.</p>
+      <p><strong>Data Storage:</strong> Your email and any personal information will be securely stored in accordance with our data protection policies. We take appropriate measures to ensure the security and confidentiality of your data.</p>
       <div class="button-container">
-        <a href="mailto:dayowen.art@gmail.com?subject=Draw%20order&body=Hello%20Dayowen!%0A%0AI%20would%20like%20to%20request%20a%20draw%20about:%20%0A%0AShare%20on%20main%20page:%20%5BYES/NO%5D%0AContact%20me%20for%20updates:%20%5BYES/NO%5D" class="send-email">Send Email</a>
+        <a href="mailto:dayowen.art@gmail.com?subject=Draw%20order.&body=Hello%20Dayowen.%0AI%20want%20a%20draw%20about%3A%20%0AShare%20draw%20in%20the%20main%20page%3A%20%5BYES%2FNO%5D%0AI%20want%20to%20get%20contacted%3A%20%5BYES%2FNO%5D" class="send-email">Send e-mail</a>
         <button onclick="hideRequestPopup()">Close</button>
       </div>
     </div>
   </div>
 
   <script>
-    // === Loader ===
+    // === LOADER & PARALLEL IMAGE LOADING ===
     document.addEventListener('DOMContentLoaded', () => {
       const loader = document.getElementById('siteLoader');
-      const siteContent = document.getElementById('siteContent');
-      function hideLoader() {
+      const MIN_DISPLAY_TIME = 5000; // 5 segundos mínimos
+
+      // 1️⃣ Iniciar carga de galerías INMEDIATAMENTE (en segundo plano)
+      loadGallery('gallery-digital', 'digital', 'Digital Art');
+      loadGallery('gallery-traditional', 'traditional', 'Traditional Art');
+      loadGallery('gallery-projects', 'projects', 'Special Projects');
+
+      // 2️⃣ El loader se oculta después de 5s (mientras las imágenes ya cargan)
+      setTimeout(() => {
         loader.classList.add('hidden');
-        siteContent.style.opacity = '1';
-      }
-      if (document.readyState === 'complete') setTimeout(hideLoader, 100);
-      else window.addEventListener('load', () => setTimeout(hideLoader, 120));
+      }, MIN_DISPLAY_TIME);
+
+      // 3️⃣ Año actual
       document.getElementById('year').textContent = new Date().getFullYear();
     });
 
@@ -647,7 +475,7 @@
       }
     }
 
-    // === Gallery Interactions (hover preview + popup) ===
+    // === Gallery Interactions ===
     let galleryInitialized = false;
     function initGalleryInteractions() {
       if (galleryInitialized) return;
@@ -722,13 +550,12 @@
         if (e.key === 'Escape' && popup.classList.contains('active')) closePopup();
       });
 
-      // Hide hover preview on touch devices
       if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
         hoverPreview.style.display = 'none';
       }
     }
 
-    // === Request Draw Popup ===
+    // === Request Draw Popup Functions ===
     function showRequestPopup() {
       document.getElementById('popupRequest').classList.add('active');
       document.getElementById('popupRequest').setAttribute('aria-hidden', 'false');
@@ -741,13 +568,6 @@
     }
     document.getElementById('popupRequest').addEventListener('click', e => {
       if (e.target.id === 'popupRequest') hideRequestPopup();
-    });
-
-    // === Load all galleries ===
-    window.addEventListener('DOMContentLoaded', () => {
-      loadGallery('gallery-digital', 'digital', 'Digital Art');
-      loadGallery('gallery-traditional', 'traditional', 'Traditional Art');
-      loadGallery('gallery-projects', 'projects', 'Special Projects');
     });
   </script>
 </body>
