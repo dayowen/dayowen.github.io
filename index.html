@@ -7,340 +7,87 @@
   <meta name="description" content="Dayowen - Art gallery featuring digital, traditional & special projects." />
   <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700&display=swap" rel="stylesheet" />
   <style>
-    /* === Paleta Jardín Vintage (Pastel) === */
     :root {
-      --bg: #f5ebe0;
-      --fg: #3e362f;
-      --accent: #b8c9a7;
-      --accent-dark: #5a6b4a;
-      --border: #c9b8a3;
-      --card-bg: #fffdf9;
-      --muted: rgba(62, 54, 47, 0.12);
-      --card-radius: 16px;
-      --shadow: 0 8px 30px rgba(62, 54, 47, 0.15);
+      --bg: #f5ebe0; --fg: #3e362f; --accent: #b8c9a7; --accent-dark: #5a6b4a;
+      --border: #c9b8a3; --card-bg: #fffdf9; --muted: rgba(62, 54, 47, 0.12);
+      --card-radius: 16px; --shadow: 0 8px 30px rgba(62, 54, 47, 0.15);
       --shadow-hover: 0 20px 50px rgba(90, 107, 74, 0.25);
     }
-
-    /* === Amorphous Drifting Glow === */
-    .liminal-bg {
-      position: fixed; top: 0; left: 0;
-      width: 100%; height: 100%;
-      pointer-events: none; z-index: -9999;
-      overflow: hidden;
-    }
-    .drift-glow {
-      position: absolute;
-      width: 600px; height: 600px;
-      bottom: -200px; left: -200px;
-      opacity: 0.35; filter: blur(80px);
-      mix-blend-mode: multiply;
-      animation: drift-br-tr 60s infinite alternate ease-in-out;
-      background:
-        radial-gradient(circle at 40% 30%, rgba(184, 201, 167, 0.6) 0%, transparent 50%),
-        radial-gradient(circle at 70% 60%, rgba(201, 184, 163, 0.5) 0%, transparent 60%),
-        radial-gradient(circle at 20% 80%, rgba(245, 235, 224, 0.4) 0%, transparent 70%);
-    }
-    @keyframes drift-br-tr {
-      0% { transform: translate(0, 0); }
-      100% { transform: translate(calc(100vw + 300px), calc(-100vh - 300px)); }
-    }
-
-    /* === Loader (Overlay) === */
-    .loader {
-      position: fixed; inset: 0;
-      display: flex; justify-content: center; align-items: center;
-      background: var(--bg);
-      z-index: 99999;
-      font-size: 1.1rem; letter-spacing: 1px;
-      color: var(--fg);
-      transition: opacity .6s ease, visibility .6s ease;
-      font-family: 'Unbounded', sans-serif;
-    }
+    .liminal-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -9999; overflow: hidden; }
+    .drift-glow { position: absolute; width: 600px; height: 600px; bottom: -200px; left: -200px; opacity: 0.35; filter: blur(80px); mix-blend-mode: multiply; animation: drift-br-tr 60s infinite alternate ease-in-out; background: radial-gradient(circle at 40% 30%, rgba(184, 201, 167, 0.6) 0%, transparent 50%), radial-gradient(circle at 70% 60%, rgba(201, 184, 163, 0.5) 0%, transparent 60%), radial-gradient(circle at 20% 80%, rgba(245, 235, 224, 0.4) 0%, transparent 70%); }
+    @keyframes drift-br-tr { 0% { transform: translate(0, 0); } 100% { transform: translate(calc(100vw + 300px), calc(-100vh - 300px)); } }
+    .loader { position: fixed; inset: 0; display: flex; justify-content: center; align-items: center; background: var(--bg); z-index: 99999; font-size: 1.1rem; letter-spacing: 1px; color: var(--fg); transition: opacity .6s ease, visibility .6s ease; font-family: 'Unbounded', sans-serif; }
     .loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
     .loader-inner { display: flex; gap: 10px; align-items: center; }
     .loader .label { font-weight: 700; text-transform: lowercase; }
     .loader .dots { display: inline-block; width: 40px; text-align: left; }
-    .loader .dots span {
-      display: inline-block; width: 7px; height: 7px;
-      margin-right: 5px; border-radius: 50%;
-      background: var(--accent);
-      opacity: .25; transform: translateY(0);
-      animation: dot 1s infinite linear;
-    }
-    .loader .dots span:nth-child(1){ animation-delay: 0s }
-    .loader .dots span:nth-child(2){ animation-delay: 0.12s }
-    .loader .dots span:nth-child(3){ animation-delay: 0.24s }
-    @keyframes dot {
-      0% { opacity: .25; transform: translateY(0) scale(.9); }
-      40% { opacity: 1; transform: translateY(-7px) scale(1.05); }
-      80% { opacity: .25; transform: translateY(0) scale(.95); }
-    }
-
-    /* === Base === */
+    .loader .dots span { display: inline-block; width: 7px; height: 7px; margin-right: 5px; border-radius: 50%; background: var(--accent); opacity: .25; transform: translateY(0); animation: dot 1s infinite linear; }
+    .loader .dots span:nth-child(1){ animation-delay: 0s } .loader .dots span:nth-child(2){ animation-delay: 0.12s } .loader .dots span:nth-child(3){ animation-delay: 0.24s }
+    @keyframes dot { 0% { opacity: .25; transform: translateY(0) scale(.9); } 40% { opacity: 1; transform: translateY(-7px) scale(1.05); } 80% { opacity: .25; transform: translateY(0) scale(.95); } }
     * { box-sizing: border-box; }
-    html, body {
-      height: 100%; margin: 0;
-      background: var(--bg); color: var(--fg);
-      font-family: 'Unbounded', sans-serif;
-      position: relative; z-index: 1; line-height: 1.5;
-    }
-    .container {
-      max-width: 1100px; margin: 0 auto;
-      padding: 60px 20px 100px;
-      position: relative; z-index: 2;
-    }
-
-    /* === Banner === */
-    .banner {
-      width: 100%; height: 300px;
-      background-image: url('https://dayowen.github.io/assets/banner.jpeg');
-      background-size: cover; background-position: center;
-      display: flex; justify-content: center; align-items: center;
-      margin-bottom: 40px; border-radius: var(--card-radius);
-      overflow: hidden; position: relative;
-      box-shadow: var(--shadow); border: 2px solid var(--border);
-    }
-    .banner h1 {
-      font-size: 3.5em;
-      background-color: rgba(245, 235, 224, 0.9);
-      padding: 10px 24px; border: 2px solid var(--border);
-      border-radius: 12px; color: var(--fg);
-      backdrop-filter: blur(4px); text-shadow: none;
-      z-index: 2; margin: 0;
-    }
-
-    /* === Gallery Sections === */
+    html, body { height: 100%; margin: 0; background: var(--bg); color: var(--fg); font-family: 'Unbounded', sans-serif; position: relative; z-index: 1; line-height: 1.5; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 60px 20px 100px; position: relative; z-index: 2; }
+    .banner { width: 100%; height: 300px; background-image: url('https://dayowen.github.io/assets/banner.jpeg'); background-size: cover; background-position: center; display: flex; justify-content: center; align-items: center; margin-bottom: 40px; border-radius: var(--card-radius); overflow: hidden; position: relative; box-shadow: var(--shadow); border: 2px solid var(--border); }
+    .banner h1 { font-size: 3.5em; background-color: rgba(245, 235, 224, 0.9); padding: 10px 24px; border: 2px solid var(--border); border-radius: 12px; color: var(--fg); backdrop-filter: blur(4px); text-shadow: none; z-index: 2; margin: 0; }
     .gallery-section { margin: 60px 0; scroll-margin-top: 40px; }
-    .gallery-section h2 {
-      font-size: 1.6rem; color: var(--accent-dark);
-      margin: 0 0 24px; padding-bottom: 12px;
-      border-bottom: 2px solid var(--border);
-      display: flex; align-items: center; gap: 10px;
-    }
-    .gallery-section h2::before {
-      content: ""; width: 10px; height: 10px;
-      background: var(--accent); border-radius: 50%;
-      display: inline-block; box-shadow: 0 0 10px var(--accent);
-    }
-    .image-placeholder {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 20px;
-    }
-
-    /* === Image Box === */
-    .image-box {
-      position: relative; height: 280px;
-      border-radius: var(--card-radius); overflow: hidden;
-      cursor: pointer; background: var(--card-bg);
-      box-shadow: var(--shadow);
-      transition: transform .45s cubic-bezier(.2,.9,.2,1), box-shadow .45s;
-      border: 1px solid var(--border);
-    }
-    .image-box img.thumb {
-      width: 100%; height: 100%; object-fit: cover; display: block;
-      transition: transform .8s ease, filter .45s;
-    }
-    .image-box::before {
-      content: ""; position: absolute; inset: 0;
-      z-index: 1; pointer-events: none;
-      background:
-        radial-gradient(ellipse at 30% 20%, rgba(184, 201, 167, 0.1) 0%, transparent 35%),
-        linear-gradient(180deg, rgba(255,253,249,0.1) 10%, rgba(62,54,47,0.2) 75%);
-      mix-blend-mode: multiply;
-    }
-    .image-box::after {
-      content: ""; position: absolute; inset: 0;
-      z-index: 2; pointer-events: none;
-      background-image:
-        linear-gradient(transparent 85%, rgba(62,54,47,0.08) 100%),
-        repeating-linear-gradient(90deg, rgba(201,184,163,0.05) 0 1px, transparent 1px 5px);
-      opacity: .8; mix-blend-mode: overlay; transition: opacity .5s;
-    }
-    .image-box .meta {
-      position: absolute; left: 0; right: 0; bottom: 0;
-      padding: 14px 16px; z-index: 4;
-      display: flex; justify-content: space-between; align-items: center;
-      background: linear-gradient(180deg, rgba(255,253,249,0), rgba(245,235,224,0.95));
-      transform: translateY(8px); transition: transform .36s;
-      color: var(--fg); border-top: 1px solid var(--border);
-    }
+    .gallery-section h2 { font-size: 1.6rem; color: var(--accent-dark); margin: 0 0 24px; padding-bottom: 12px; border-bottom: 2px solid var(--border); display: flex; align-items: center; gap: 10px; }
+    .gallery-section h2::before { content: ""; width: 10px; height: 10px; background: var(--accent); border-radius: 50%; display: inline-block; box-shadow: 0 0 10px var(--accent); }
+    .image-placeholder { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+    .image-box { position: relative; height: 280px; border-radius: var(--card-radius); overflow: hidden; cursor: pointer; background: var(--card-bg); box-shadow: var(--shadow); transition: transform .45s cubic-bezier(.2,.9,.2,1), box-shadow .45s; border: 1px solid var(--border); }
+    .image-box img.thumb { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .8s ease, filter .45s; }
+    .image-box::before { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; background: radial-gradient(ellipse at 30% 20%, rgba(184, 201, 167, 0.1) 0%, transparent 35%), linear-gradient(180deg, rgba(255,253,249,0.1) 10%, rgba(62,54,47,0.2) 75%); mix-blend-mode: multiply; }
+    .image-box::after { content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none; background-image: linear-gradient(transparent 85%, rgba(62,54,47,0.08) 100%), repeating-linear-gradient(90deg, rgba(201,184,163,0.05) 0 1px, transparent 1px 5px); opacity: .8; mix-blend-mode: overlay; transition: opacity .5s; }
+    .image-box .meta { position: absolute; left: 0; right: 0; bottom: 0; padding: 14px 16px; z-index: 4; display: flex; justify-content: space-between; align-items: center; background: linear-gradient(180deg, rgba(255,253,249,0), rgba(245,235,224,0.95)); transform: translateY(8px); transition: transform .36s; color: var(--fg); border-top: 1px solid var(--border); }
     .image-box .meta .title { font-weight: 700; font-size: 0.95rem; color: var(--accent-dark); }
     .image-box .meta .sub { font-size: 0.75rem; opacity: 0.8; color: var(--fg); }
-    .image-box:hover {
-      transform: scale(1.04) rotateX(2deg) rotateY(-1deg);
-      box-shadow: var(--shadow-hover); z-index: 10;
-    }
+    .image-box:hover { transform: scale(1.04) rotateX(2deg) rotateY(-1deg); box-shadow: var(--shadow-hover); z-index: 10; }
     .image-box:hover img.thumb { transform: scale(1.08) translateY(-4px); }
     .image-box:hover .meta { transform: translateY(0); }
-
-    /* === Hover Preview === */
-    .hover-preview {
-      position: fixed; pointer-events: none; z-index: 12000;
-      display: flex; gap: 14px; align-items: flex-start;
-      transform: translate3d(16px, 16px, 0) scale(.98);
-      transition: opacity .1s linear, transform .1s linear;
-      opacity: 0; visibility: hidden; max-width: 440px;
-      filter: drop-shadow(0 12px 35px rgba(62, 54, 47, 0.2));
-    }
+    .hover-preview { position: fixed; pointer-events: none; z-index: 12000; display: flex; gap: 14px; align-items: flex-start; transform: translate3d(16px, 16px, 0) scale(.98); transition: opacity .1s linear, transform .1s linear; opacity: 0; visibility: hidden; max-width: 440px; filter: drop-shadow(0 12px 35px rgba(62, 54, 47, 0.2)); }
     .hover-preview.active { opacity: 1; visibility: visible; transform: translate3d(16px, 16px, 0) scale(1); }
-    .hover-preview .preview-thumb {
-      width: 190px; height: 130px; border-radius: 10px;
-      overflow: hidden; background: var(--card-bg);
-      flex-shrink: 0; border: 1px solid var(--border);
-    }
+    .hover-preview .preview-thumb { width: 190px; height: 130px; border-radius: 10px; overflow: hidden; background: var(--card-bg); flex-shrink: 0; border: 1px solid var(--border); }
     .hover-preview .preview-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .hover-preview .preview-meta {
-      background: var(--card-bg); padding: 14px; border-radius: 10px;
-      color: var(--fg); max-width: 220px; border: 1px solid var(--border);
-      box-shadow: var(--shadow);
-    }
+    .hover-preview .preview-meta { background: var(--card-bg); padding: 14px; border-radius: 10px; color: var(--fg); max-width: 220px; border: 1px solid var(--border); box-shadow: var(--shadow); }
     .hover-preview .preview-meta h4 { margin: 0 0 6px; font-size: 1rem; color: var(--accent-dark); }
     .hover-preview .preview-meta p { margin: 0; font-size: 0.85rem; opacity: 0.9; line-height: 1.4; }
-
-    /* === Popup Modal (Image) === */
-    .popup {
-      position: fixed; inset: 0;
-      background: rgba(245, 235, 224, 0.92);
-      display: flex; justify-content: center; align-items: center;
-      opacity: 0; pointer-events: none; transition: opacity .3s;
-      z-index: 10000; backdrop-filter: blur(6px);
-    }
+    .popup { position: fixed; inset: 0; background: rgba(245, 235, 224, 0.92); display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity .3s; z-index: 10000; backdrop-filter: blur(6px); }
     .popup.active { opacity: 1; pointer-events: auto; }
-    .popup-inner {
-      max-width: 900px; width: calc(100% - 40px); margin: 20px;
-      border-radius: 16px; overflow: hidden;
-      box-shadow: 0 25px 80px rgba(62, 54, 47, 0.35);
-      transform: translateY(15px); transition: transform .25s;
-      background: var(--card-bg); border: 2px solid var(--border);
-    }
+    .popup-inner { max-width: 900px; width: calc(100% - 40px); margin: 20px; border-radius: 16px; overflow: hidden; box-shadow: 0 25px 80px rgba(62, 54, 47, 0.35); transform: translateY(15px); transition: transform .25s; background: var(--card-bg); border: 2px solid var(--border); }
     .popup.active .popup-inner { transform: translateY(0); }
     .popup-content { padding: 20px; text-align: center; color: var(--fg); }
-    .popup-content img {
-      width: 100%; height: auto; max-height: 65vh; object-fit: contain;
-      border-radius: 8px; border: 1px solid var(--border); background: var(--bg);
-    }
+    .popup-content img { width: 100%; height: auto; max-height: 65vh; object-fit: contain; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); }
     .popup-content h3 { margin: 16px 0 8px; font-size: 1.4rem; color: var(--accent-dark); }
     .popup-content p { margin: 0; opacity: 0.9; font-size: 1rem; line-height: 1.5; }
-    .popup-close {
-      position: absolute; top: 16px; right: 18px;
-      background: var(--accent); border: none; color: var(--fg);
-      padding: 8px 12px; border-radius: 8px; cursor: pointer;
-      font-weight: 600; font-size: 1rem; transition: background .2s, transform .1s; z-index: 10001;
-    }
+    .popup-close { position: absolute; top: 16px; right: 18px; background: var(--accent); border: none; color: var(--fg); padding: 8px 12px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 1rem; transition: background .2s, transform .1s; z-index: 10001; }
     .popup-close:hover { background: var(--border); transform: scale(1.05); }
-
-    /* === CTA Section === */
-    .cta-section {
-      text-align: center; padding: 50px 20px; margin: 60px 0;
-      background: linear-gradient(135deg, var(--accent), var(--border));
-      border-radius: var(--card-radius); border: 2px solid var(--border);
-      box-shadow: var(--shadow); position: relative; overflow: hidden;
-    }
+    .cta-section { text-align: center; padding: 50px 20px; margin: 60px 0; background: linear-gradient(135deg, var(--accent), var(--border)); border-radius: var(--card-radius); border: 2px solid var(--border); box-shadow: var(--shadow); position: relative; overflow: hidden; }
     .cta-section h2 { margin: 0 0 20px; color: var(--fg); font-size: 1.5rem; position: relative; z-index: 2; }
-    .cta-btn {
-      display: inline-block; padding: 14px 32px;
-      background: var(--card-bg); color: var(--fg);
-      text-decoration: none; border-radius: 10px; font-weight: 700;
-      border: 2px solid var(--border); transition: all .25s;
-      cursor: pointer; position: relative; z-index: 2; font-family: 'Unbounded', sans-serif;
-    }
-    .cta-btn:hover {
-      background: var(--accent-dark); color: var(--card-bg);
-      transform: translateY(-3px); box-shadow: var(--shadow-hover);
-    }
-
-    /* === Footer === */
-    footer {
-      text-align: center; padding: 30px 20px 50px;
-      color: var(--fg); opacity: 0.8; font-size: 0.9rem;
-      border-top: 1px solid var(--border); margin-top: 40px;
-    }
-
-    /* === Loading state === */
-    .gallery-loading {
-      text-align: center; padding: 40px; color: var(--accent-dark);
-      background: var(--card-bg); border-radius: var(--card-radius);
-      border: 1px dashed var(--border); grid-column: 1 / -1;
-    }
-
-    /* === Request Draw Popup === */
-    .popup-request {
-      position: fixed; inset: 0;
-      background: rgba(245, 235, 224, 0.96);
-      display: flex; justify-content: center; align-items: center;
-      opacity: 0; pointer-events: none; transition: opacity .25s;
-      z-index: 10001; backdrop-filter: blur(8px);
-    }
+    .cta-btn { display: inline-block; padding: 14px 32px; background: var(--card-bg); color: var(--fg); text-decoration: none; border-radius: 10px; font-weight: 700; border: 2px solid var(--border); transition: all .25s; cursor: pointer; position: relative; z-index: 2; font-family: 'Unbounded', sans-serif; }
+    .cta-btn:hover { background: var(--accent-dark); color: var(--card-bg); transform: translateY(-3px); box-shadow: var(--shadow-hover); }
+    footer { text-align: center; padding: 30px 20px 50px; color: var(--fg); opacity: 0.8; font-size: 0.9rem; border-top: 1px solid var(--border); margin-top: 40px; }
+    .gallery-loading { text-align: center; padding: 40px; color: var(--accent-dark); background: var(--card-bg); border-radius: var(--card-radius); border: 1px dashed var(--border); grid-column: 1 / -1; }
+    .popup-request { position: fixed; inset: 0; background: rgba(245, 235, 224, 0.96); display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity .25s; z-index: 10001; backdrop-filter: blur(8px); }
     .popup-request.active { opacity: 1; pointer-events: auto; }
-    .popup-request .popup-inner {
-      max-width: 540px; width: calc(100% - 40px);
-      background: var(--card-bg); border: 2px solid var(--border);
-      border-radius: 16px; padding: 28px; box-shadow: var(--shadow-hover);
-      max-height: 85vh; overflow-y: auto;
-    }
-    .popup-request h2 {
-      margin: 0 0 24px; color: var(--accent-dark); font-size: 1.5rem;
-      text-align: center; padding-bottom: 14px; border-bottom: 2px solid var(--border);
-    }
-    .popup-request p {
-      margin: 0 0 18px; font-size: 0.9rem; line-height: 1.6;
-      color: var(--fg); text-align: justify;
-    }
-    .popup-request p strong {
-      color: var(--accent-dark); display: block; margin-bottom: 6px; font-size: 0.95rem;
-    }
+    .popup-request .popup-inner { max-width: 540px; width: calc(100% - 40px); background: var(--card-bg); border: 2px solid var(--border); border-radius: 16px; padding: 28px; box-shadow: var(--shadow-hover); max-height: 85vh; overflow-y: auto; }
+    .popup-request h2 { margin: 0 0 24px; color: var(--accent-dark); font-size: 1.5rem; text-align: center; padding-bottom: 14px; border-bottom: 2px solid var(--border); }
+    .popup-request p { margin: 0 0 18px; font-size: 0.9rem; line-height: 1.6; color: var(--fg); text-align: justify; }
+    .popup-request p strong { color: var(--accent-dark); display: block; margin-bottom: 6px; font-size: 0.95rem; }
     .popup-request p + p { padding-top: 14px; border-top: 1px dashed var(--muted); }
-    .popup-request .button-container {
-      display: flex; justify-content: center; gap: 14px; margin-top: 28px;
-      flex-wrap: wrap; padding-top: 20px; border-top: 2px solid var(--border);
-    }
-    .popup-request .button-container a,
-    .popup-request .button-container button {
-      padding: 12px 24px; background: var(--accent); color: var(--fg);
-      border: none; border-radius: 8px; cursor: pointer;
-      font-weight: 600; font-size: 0.95rem; text-decoration: none;
-      transition: all .2s; font-family: 'Unbounded', sans-serif;
-    }
-    .popup-request .button-container a:hover,
-    .popup-request .button-container button:hover {
-      background: var(--border); transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(62, 54, 47, 0.15);
-    }
+    .popup-request .button-container { display: flex; justify-content: center; gap: 14px; margin-top: 28px; flex-wrap: wrap; padding-top: 20px; border-top: 2px solid var(--border); }
+    .popup-request .button-container a, .popup-request .button-container button { padding: 12px 24px; background: var(--accent); color: var(--fg); border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.95rem; text-decoration: none; transition: all .2s; font-family: 'Unbounded', sans-serif; }
+    .popup-request .button-container a:hover, .popup-request .button-container button:hover { background: var(--border); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(62, 54, 47, 0.15); }
     .popup-request .popup-inner::-webkit-scrollbar { width: 6px; }
     .popup-request .popup-inner::-webkit-scrollbar-track { background: var(--bg); border-radius: 3px; }
     .popup-request .popup-inner::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
     .popup-request .popup-inner::-webkit-scrollbar-thumb:hover { background: var(--accent-dark); }
-
-    /* === Responsive === */
-    @media (max-width: 900px) {
-      h1 { font-size: 2.5rem; }
-      .banner { height: 220px; }
-      .banner h1 { font-size: 2.2rem; }
-      .image-placeholder { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
-      .image-box { height: 220px; }
-      .hover-preview { display: none !important; }
-    }
-    @media (max-width: 600px) {
-      .container { padding: 40px 16px 80px; }
-      .banner { height: 180px; border-radius: 12px; }
-      .banner h1 { font-size: 1.8rem; padding: 8px 16px; }
-      .gallery-section h2 { font-size: 1.3rem; }
-      .image-placeholder { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
-      .image-box { height: 180px; }
-      .popup-request .popup-inner { padding: 20px; margin: 10px; }
-      .popup-request h2 { font-size: 1.3rem; }
-      .popup-request p { font-size: 0.85rem; }
-      .popup-request .button-container { flex-direction: column; align-items: center; }
-      .popup-request .button-container a,
-      .popup-request .button-container button { width: 100%; max-width: 220px; }
-    }
+    @media (max-width: 900px) { h1 { font-size: 2.5rem; } .banner { height: 220px; } .banner h1 { font-size: 2.2rem; } .image-placeholder { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); } .image-box { height: 220px; } .hover-preview { display: none !important; } }
+    @media (max-width: 600px) { .container { padding: 40px 16px 80px; } .banner { height: 180px; border-radius: 12px; } .banner h1 { font-size: 1.8rem; padding: 8px 16px; } .gallery-section h2 { font-size: 1.3rem; } .image-placeholder { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); } .image-box { height: 180px; } .popup-request .popup-inner { padding: 20px; margin: 10px; } .popup-request h2 { font-size: 1.3rem; } .popup-request p { font-size: 0.85rem; } .popup-request .button-container { flex-direction: column; align-items: center; } .popup-request .button-container a, .popup-request .button-container button { width: 100%; max-width: 220px; } }
     body::before, body::after, .container::before, .container::after { display: none !important; }
   </style>
 </head>
 <body>
   <div class="liminal-bg"><div class="drift-glow"></div></div>
 
-  <!-- Loader Overlay -->
   <div class="loader" id="siteLoader" role="status">
     <div class="loader-inner">
       <div class="label">dayowen loading</div>
@@ -349,7 +96,8 @@
   </div>
 
   <div class="container" id="siteContent">
-    <div class="banner"><h1>Dayowen</h1></div>
+    <!-- ✅ ID agregado para scroll preciso -->
+    <div class="banner" id="page-top"><h1>Dayowen</h1></div>
 
     <div class="gallery-section">
       <h2>Digital Art</h2>
@@ -400,33 +148,40 @@
   </div>
 
   <script>
-    // === LOADER & PARALLEL IMAGE LOADING ===
+    // === CONTROL DE SCROLL & LOADER ===
     document.addEventListener('DOMContentLoaded', () => {
-      const loader = document.getElementById('siteLoader');
-      const MIN_DISPLAY_TIME = 5000; // 5 segundos mínimos
+      // 1️⃣ Desactivar restauración automática del navegador
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+      
+      // 2️⃣ Forzar scroll al título inmediatamente
+      window.scrollTo(0, 0);
+      
+      // 3️⃣ Bloquear scroll durante la animación
+      document.body.style.overflow = 'hidden';
 
-      // 1️⃣ Iniciar carga de galerías INMEDIATAMENTE (en segundo plano)
+      // 4️⃣ Cargar galerías en segundo plano
       loadGallery('gallery-digital', 'digital', 'Digital Art');
       loadGallery('gallery-traditional', 'traditional', 'Traditional Art');
       loadGallery('gallery-projects', 'projects', 'Special Projects');
 
-      // 2️⃣ El loader se oculta después de 5s (mientras las imágenes ya cargan)
+      // 5️⃣ Al terminar los 5s: ocultar loader, desbloquear scroll y re-forzar posición superior
       setTimeout(() => {
-        loader.classList.add('hidden');
-      }, MIN_DISPLAY_TIME);
+        document.getElementById('siteLoader').classList.add('hidden');
+        document.body.style.overflow = '';
+        // Scroll instantáneo al banner para evitar saltos
+        document.getElementById('page-top').scrollIntoView({ behavior: 'instant', block: 'start' });
+      }, 5000);
 
-      // 3️⃣ Año actual
+      // 6️⃣ Año actual
       document.getElementById('year').textContent = new Date().getFullYear();
     });
 
-    // === High-res image fallback ===
+    // === High-res fallback ===
     function highResPath(path) {
       if (!path) return path;
       const parts = path.split('.');
       if (parts.length < 2) return path;
-      const ext = parts.pop();
-      const base = parts.join('.');
-      return base + '@2x.' + ext;
+      return parts.slice(0, -1).join('.') + '@2x.' + parts.pop();
     }
 
     // === Load Gallery from GitHub API ===
@@ -436,7 +191,6 @@
         const response = await fetch(`https://api.github.com/repos/dayowen/dayowen.github.io/contents/projects/${folderName}`);
         if (!response.ok) throw new Error('Not found');
         const files = await response.json();
-        
         const images = files
           .filter(file => file.type === 'file' && /\.(png|jpg|jpeg|gif|webp|svg)$/i.test(file.name))
           .sort((a, b) => {
@@ -444,13 +198,11 @@
             if (!isNaN(numA) && !isNaN(numB)) return numA - numB;
             return a.name.localeCompare(b.name);
           });
-
         container.innerHTML = '';
         if (images.length === 0) {
           container.innerHTML = `<div class="gallery-loading">No images in ${sectionTitle} yet. 🌱</div>`;
           return;
         }
-
         images.forEach((file, index) => {
           const title = file.name.replace(/\.[^/.]+$/, "").replace(/[_-]/g, ' ');
           const box = document.createElement('div');
@@ -458,14 +210,7 @@
           box.dataset.title = title;
           box.dataset.desc = `${sectionTitle} • Piece #${index + 1}`;
           box.dataset.img = file.download_url;
-          
-          box.innerHTML = `
-            <img class="thumb" src="${file.download_url}" alt="${title}" loading="lazy" />
-            <div class="meta">
-              <span class="title">${title}</span>
-              <span class="sub">#${index + 1}</span>
-            </div>
-          `;
+          box.innerHTML = `<img class="thumb" src="${file.download_url}" alt="${title}" loading="lazy" /><div class="meta"><span class="title">${title}</span><span class="sub">#${index + 1}</span></div>`;
           container.appendChild(box);
         });
         initGalleryInteractions();
@@ -480,7 +225,6 @@
     function initGalleryInteractions() {
       if (galleryInitialized) return;
       galleryInitialized = true;
-
       const boxes = document.querySelectorAll('.image-box');
       const hoverPreview = document.getElementById('hoverPreview');
       const previewThumb = document.getElementById('previewThumb');
@@ -493,8 +237,7 @@
       const popupClose = document.getElementById('popup-close');
 
       function positionPreview(x, y) {
-        const pad = 16;
-        const rect = hoverPreview.getBoundingClientRect();
+        const pad = 16, rect = hoverPreview.getBoundingClientRect();
         let left = x + 20, top = y + 20;
         if (left + rect.width + pad > window.innerWidth) left = x - rect.width - 20;
         if (top + rect.height + pad > window.innerHeight) top = y - rect.height - 20;
@@ -517,14 +260,8 @@
             positionPreview(e.clientX, e.clientY);
           }, 120);
         });
-        box.addEventListener('mousemove', e => {
-          if (hoverPreview.classList.contains('active')) positionPreview(e.clientX, e.clientY);
-        });
-        box.addEventListener('mouseleave', () => {
-          clearTimeout(showTimer);
-          hoverPreview.classList.remove('active');
-          hoverPreview.setAttribute('aria-hidden', 'true');
-        });
+        box.addEventListener('mousemove', e => { if (hoverPreview.classList.contains('active')) positionPreview(e.clientX, e.clientY); });
+        box.addEventListener('mouseleave', () => { clearTimeout(showTimer); hoverPreview.classList.remove('active'); hoverPreview.setAttribute('aria-hidden', 'true'); });
         box.addEventListener('click', () => {
           const imgPath = box.dataset.img || box.querySelector('img.thumb')?.src || '';
           const candidate = highResPath(imgPath);
@@ -546,16 +283,12 @@
       }
       popup.addEventListener('click', e => { if (e.target === popup) closePopup(); });
       popupClose.addEventListener('click', closePopup);
-      document.addEventListener('keydown', e => {
-        if (e.key === 'Escape' && popup.classList.contains('active')) closePopup();
-      });
+      document.addEventListener('keydown', e => { if (e.key === 'Escape' && popup.classList.contains('active')) closePopup(); });
 
-      if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
-        hoverPreview.style.display = 'none';
-      }
+      if ('ontouchstart' in window || navigator.maxTouchPoints > 0) hoverPreview.style.display = 'none';
     }
 
-    // === Request Draw Popup Functions ===
+    // === Request Draw Popup ===
     function showRequestPopup() {
       document.getElementById('popupRequest').classList.add('active');
       document.getElementById('popupRequest').setAttribute('aria-hidden', 'false');
@@ -566,9 +299,7 @@
       document.getElementById('popupRequest').setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
     }
-    document.getElementById('popupRequest').addEventListener('click', e => {
-      if (e.target.id === 'popupRequest') hideRequestPopup();
-    });
+    document.getElementById('popupRequest').addEventListener('click', e => { if (e.target.id === 'popupRequest') hideRequestPopup(); });
   </script>
 </body>
 </html>
