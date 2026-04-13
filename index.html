@@ -33,55 +33,107 @@
     .gallery-section h2 { font-size: 1.6rem; color: var(--accent-dark); margin: 0 0 24px; padding-bottom: 12px; border-bottom: 2px solid var(--border); display: flex; align-items: center; gap: 10px; }
     .gallery-section h2::before { content: ""; width: 10px; height: 10px; background: var(--accent); border-radius: 50%; display: inline-block; box-shadow: 0 0 10px var(--accent); }
     .image-placeholder { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
-    .image-box { position: relative; height: 280px; border-radius: var(--card-radius); overflow: hidden; cursor: pointer; background: var(--card-bg); box-shadow: var(--shadow); transition: transform .45s cubic-bezier(.2,.9,.2,1), box-shadow .45s; border: 1px solid var(--border); }
-    .image-box img.thumb { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .8s ease, filter .45s; }
-    .image-box::before { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; background: radial-gradient(ellipse at 30% 20%, rgba(184, 201, 167, 0.1) 0%, transparent 35%), linear-gradient(180deg, rgba(255,253,249,0.1) 10%, rgba(62,54,47,0.2) 75%); mix-blend-mode: multiply; }
-    .image-box::after { content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none; background-image: linear-gradient(transparent 85%, rgba(62,54,47,0.08) 100%), repeating-linear-gradient(90deg, rgba(201,184,163,0.05) 0 1px, transparent 1px 5px); opacity: .8; mix-blend-mode: overlay; transition: opacity .5s; }
-    .image-box .meta { position: absolute; left: 0; right: 0; bottom: 0; padding: 14px 16px; z-index: 4; display: flex; justify-content: space-between; align-items: center; background: linear-gradient(180deg, rgba(255,253,249,0), rgba(245,235,224,0.95)); transform: translateY(8px); transition: transform .36s; color: var(--fg); border-top: 1px solid var(--border); }
+    .image-box {
+      position: relative; height: 280px; border-radius: var(--card-radius);
+      overflow: hidden; background: var(--card-bg); box-shadow: var(--shadow);
+      transition: transform .3s cubic-bezier(.2,.9,.2,1), box-shadow .3s;
+      border: 1px solid var(--border);
+    }
+    .image-box img.thumb { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .6s ease; }
+    .image-box::before {
+      content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+      background: radial-gradient(ellipse at 30% 20%, rgba(184, 201, 167, 0.1) 0%, transparent 35%),
+                  linear-gradient(180deg, rgba(255,253,249,0.1) 10%, rgba(62,54,47,0.2) 75%);
+      mix-blend-mode: multiply;
+    }
+    .image-box .meta {
+      position: absolute; left: 0; right: 0; bottom: 0; padding: 14px 16px;
+      z-index: 2; display: flex; justify-content: space-between; align-items: center;
+      background: linear-gradient(180deg, rgba(255,253,249,0), rgba(245,235,224,0.95));
+      color: var(--fg); border-top: 1px solid var(--border);
+    }
     .image-box .meta .title { font-weight: 700; font-size: 0.95rem; color: var(--accent-dark); }
     .image-box .meta .sub { font-size: 0.75rem; opacity: 0.8; color: var(--fg); }
-    .image-box:hover { transform: scale(1.04) rotateX(2deg) rotateY(-1deg); box-shadow: var(--shadow-hover); z-index: 10; }
-    .image-box:hover img.thumb { transform: scale(1.08) translateY(-4px); }
-    .image-box:hover .meta { transform: translateY(0); }
-    .hover-preview { position: fixed; pointer-events: none; z-index: 12000; display: flex; gap: 14px; align-items: flex-start; transform: translate3d(16px, 16px, 0) scale(.98); transition: opacity .1s linear, transform .1s linear; opacity: 0; visibility: hidden; max-width: 440px; filter: drop-shadow(0 12px 35px rgba(62, 54, 47, 0.2)); }
-    .hover-preview.active { opacity: 1; visibility: visible; transform: translate3d(16px, 16px, 0) scale(1); }
-    .hover-preview .preview-thumb { width: 190px; height: 130px; border-radius: 10px; overflow: hidden; background: var(--card-bg); flex-shrink: 0; border: 1px solid var(--border); }
-    .hover-preview .preview-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .hover-preview .preview-meta { background: var(--card-bg); padding: 14px; border-radius: 10px; color: var(--fg); max-width: 220px; border: 1px solid var(--border); box-shadow: var(--shadow); }
-    .hover-preview .preview-meta h4 { margin: 0 0 6px; font-size: 1rem; color: var(--accent-dark); }
-    .hover-preview .preview-meta p { margin: 0; font-size: 0.85rem; opacity: 0.9; line-height: 1.4; }
-    .popup { position: fixed; inset: 0; background: rgba(245, 235, 224, 0.92); display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity .3s; z-index: 10000; backdrop-filter: blur(6px); }
-    .popup.active { opacity: 1; pointer-events: auto; }
-    .popup-inner { max-width: 900px; width: calc(100% - 40px); margin: 20px; border-radius: 16px; overflow: hidden; box-shadow: 0 25px 80px rgba(62, 54, 47, 0.35); transform: translateY(15px); transition: transform .25s; background: var(--card-bg); border: 2px solid var(--border); }
-    .popup.active .popup-inner { transform: translateY(0); }
-    .popup-content { padding: 20px; text-align: center; color: var(--fg); }
-    .popup-content img { width: 100%; height: auto; max-height: 65vh; object-fit: contain; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); }
-    .popup-content h3 { margin: 16px 0 8px; font-size: 1.4rem; color: var(--accent-dark); }
-    .popup-content p { margin: 0; opacity: 0.9; font-size: 1rem; line-height: 1.5; }
-    .popup-close { position: absolute; top: 16px; right: 18px; background: var(--accent); border: none; color: var(--fg); padding: 8px 12px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 1rem; transition: background .2s, transform .1s; z-index: 10001; }
-    .popup-close:hover { background: var(--border); transform: scale(1.05); }
-    .cta-section { text-align: center; padding: 50px 20px; margin: 60px 0; background: linear-gradient(135deg, var(--accent), var(--border)); border-radius: var(--card-radius); border: 2px solid var(--border); box-shadow: var(--shadow); position: relative; overflow: hidden; }
+    .image-box:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+    .image-box:hover img.thumb { transform: scale(1.04); }
+    
+    /* === Toggle Button === */
+    .show-more-container { text-align: center; margin-top: 30px; grid-column: 1 / -1; }
+    .toggle-btn {
+      display: inline-flex; align-items: center; gap: 10px; padding: 12px 28px;
+      background: var(--accent); color: var(--fg); border: 2px solid var(--border);
+      border-radius: 10px; font-family: 'Unbounded', sans-serif; font-size: 0.95rem;
+      font-weight: 600; cursor: pointer; transition: all .25s; box-shadow: var(--shadow);
+    }
+    .toggle-btn:hover { background: var(--border); transform: translateY(-2px); box-shadow: var(--shadow-hover); }
+    .toggle-btn .arrow { font-size: 1.1rem; transition: transform .3s; }
+    .toggle-btn:hover .arrow { transform: translateY(3px); }
+    
+    /* === CTA Section === */
+    .cta-section {
+      text-align: center; padding: 50px 20px; margin: 60px 0;
+      background: linear-gradient(135deg, var(--accent), var(--border));
+      border-radius: var(--card-radius); border: 2px solid var(--border);
+      box-shadow: var(--shadow); position: relative; overflow: hidden;
+    }
     .cta-section h2 { margin: 0 0 20px; color: var(--fg); font-size: 1.5rem; position: relative; z-index: 2; }
-    .cta-btn { display: inline-block; padding: 14px 32px; background: var(--card-bg); color: var(--fg); text-decoration: none; border-radius: 10px; font-weight: 700; border: 2px solid var(--border); transition: all .25s; cursor: pointer; position: relative; z-index: 2; font-family: 'Unbounded', sans-serif; }
+    .cta-btn {
+      display: inline-block; padding: 14px 32px; background: var(--card-bg);
+      color: var(--fg); text-decoration: none; border-radius: 10px; font-weight: 700;
+      border: 2px solid var(--border); transition: all .25s; cursor: pointer;
+      position: relative; z-index: 2; font-family: 'Unbounded', sans-serif;
+    }
     .cta-btn:hover { background: var(--accent-dark); color: var(--card-bg); transform: translateY(-3px); box-shadow: var(--shadow-hover); }
+    
+    /* === Footer === */
     footer { text-align: center; padding: 30px 20px 50px; color: var(--fg); opacity: 0.8; font-size: 0.9rem; border-top: 1px solid var(--border); margin-top: 40px; }
     .gallery-loading { text-align: center; padding: 40px; color: var(--accent-dark); background: var(--card-bg); border-radius: var(--card-radius); border: 1px dashed var(--border); grid-column: 1 / -1; }
-    .popup-request { position: fixed; inset: 0; background: rgba(245, 235, 224, 0.96); display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity .25s; z-index: 10001; backdrop-filter: blur(8px); }
+    
+    /* === Request Draw Popup === */
+    .popup-request {
+      position: fixed; inset: 0; background: rgba(245, 235, 224, 0.96);
+      display: flex; justify-content: center; align-items: center;
+      opacity: 0; pointer-events: none; transition: opacity .25s;
+      z-index: 10001; backdrop-filter: blur(8px);
+    }
     .popup-request.active { opacity: 1; pointer-events: auto; }
-    .popup-request .popup-inner { max-width: 540px; width: calc(100% - 40px); background: var(--card-bg); border: 2px solid var(--border); border-radius: 16px; padding: 28px; box-shadow: var(--shadow-hover); max-height: 85vh; overflow-y: auto; }
+    .popup-request .popup-inner {
+      max-width: 540px; width: calc(100% - 40px); background: var(--card-bg);
+      border: 2px solid var(--border); border-radius: 16px; padding: 28px;
+      box-shadow: var(--shadow-hover); max-height: 85vh; overflow-y: auto;
+    }
     .popup-request h2 { margin: 0 0 24px; color: var(--accent-dark); font-size: 1.5rem; text-align: center; padding-bottom: 14px; border-bottom: 2px solid var(--border); }
     .popup-request p { margin: 0 0 18px; font-size: 0.9rem; line-height: 1.6; color: var(--fg); text-align: justify; }
     .popup-request p strong { color: var(--accent-dark); display: block; margin-bottom: 6px; font-size: 0.95rem; }
     .popup-request p + p { padding-top: 14px; border-top: 1px dashed var(--muted); }
     .popup-request .button-container { display: flex; justify-content: center; gap: 14px; margin-top: 28px; flex-wrap: wrap; padding-top: 20px; border-top: 2px solid var(--border); }
-    .popup-request .button-container a, .popup-request .button-container button { padding: 12px 24px; background: var(--accent); color: var(--fg); border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.95rem; text-decoration: none; transition: all .2s; font-family: 'Unbounded', sans-serif; }
-    .popup-request .button-container a:hover, .popup-request .button-container button:hover { background: var(--border); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(62, 54, 47, 0.15); }
+    .popup-request .button-container a, .popup-request .button-container button {
+      padding: 12px 24px; background: var(--accent); color: var(--fg); border: none;
+      border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.95rem;
+      text-decoration: none; transition: all .2s; font-family: 'Unbounded', sans-serif;
+    }
+    .popup-request .button-container a:hover, .popup-request .button-container button:hover {
+      background: var(--border); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(62, 54, 47, 0.15);
+    }
     .popup-request .popup-inner::-webkit-scrollbar { width: 6px; }
     .popup-request .popup-inner::-webkit-scrollbar-track { background: var(--bg); border-radius: 3px; }
     .popup-request .popup-inner::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
     .popup-request .popup-inner::-webkit-scrollbar-thumb:hover { background: var(--accent-dark); }
-    @media (max-width: 900px) { h1 { font-size: 2.5rem; } .banner { height: 220px; } .banner h1 { font-size: 2.2rem; } .image-placeholder { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); } .image-box { height: 220px; } .hover-preview { display: none !important; } }
-    @media (max-width: 600px) { .container { padding: 40px 16px 80px; } .banner { height: 180px; border-radius: 12px; } .banner h1 { font-size: 1.8rem; padding: 8px 16px; } .gallery-section h2 { font-size: 1.3rem; } .image-placeholder { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); } .image-box { height: 180px; } .popup-request .popup-inner { padding: 20px; margin: 10px; } .popup-request h2 { font-size: 1.3rem; } .popup-request p { font-size: 0.85rem; } .popup-request .button-container { flex-direction: column; align-items: center; } .popup-request .button-container a, .popup-request .button-container button { width: 100%; max-width: 220px; } }
+    
+    @media (max-width: 900px) {
+      h1 { font-size: 2.5rem; } .banner { height: 220px; } .banner h1 { font-size: 2.2rem; }
+      .image-placeholder { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+      .image-box { height: 220px; }
+    }
+    @media (max-width: 600px) {
+      .container { padding: 40px 16px 80px; } .banner { height: 180px; border-radius: 12px; }
+      .banner h1 { font-size: 1.8rem; padding: 8px 16px; } .gallery-section h2 { font-size: 1.3rem; }
+      .image-placeholder { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+      .image-box { height: 180px; } .popup-request .popup-inner { padding: 20px; margin: 10px; }
+      .popup-request h2 { font-size: 1.3rem; } .popup-request p { font-size: 0.85rem; }
+      .popup-request .button-container { flex-direction: column; align-items: center; }
+      .popup-request .button-container a, .popup-request .button-container button { width: 100%; max-width: 220px; }
+    }
     body::before, body::after, .container::before, .container::after { display: none !important; }
   </style>
 </head>
@@ -96,20 +148,22 @@
   </div>
 
   <div class="container" id="siteContent">
-    <!-- ✅ ID agregado para scroll preciso -->
     <div class="banner" id="page-top"><h1>Dayowen</h1></div>
 
     <div class="gallery-section">
       <h2>Digital Art</h2>
       <div id="gallery-digital" class="image-placeholder"><div class="gallery-loading">Loading digital artworks...</div></div>
+      <div class="show-more-container" id="showmore-digital"></div>
     </div>
     <div class="gallery-section">
       <h2>Traditional Art</h2>
       <div id="gallery-traditional" class="image-placeholder"><div class="gallery-loading">Loading traditional pieces...</div></div>
+      <div class="show-more-container" id="showmore-traditional"></div>
     </div>
     <div class="gallery-section">
       <h2>Special Projects</h2>
       <div id="gallery-projects" class="image-placeholder"><div class="gallery-loading">Loading projects...</div></div>
+      <div class="show-more-container" id="showmore-projects"></div>
     </div>
 
     <div class="cta-section">
@@ -120,18 +174,7 @@
     <footer>&copy; <span id="year"></span> Dayowen. All rights reserved.</footer>
   </div>
 
-  <div class="hover-preview" id="hoverPreview" aria-hidden="true">
-    <div class="preview-thumb"><img id="previewThumb" src="" alt="" /></div>
-    <div class="preview-meta"><h4 id="previewTitle"></h4><p id="previewDesc"></p></div>
-  </div>
-
-  <div class="popup" id="popup" aria-hidden="true">
-    <div class="popup-inner" role="dialog" aria-modal="true">
-      <button class="popup-close" id="popup-close" aria-label="Close">✕</button>
-      <div class="popup-content"><img src="" alt="Full size" id="popup-img" /><h3 id="popup-title"></h3><p id="popup-desc"></p></div>
-    </div>
-  </div>
-
+  <!-- ✅ Request Draw Popup (SOLO ESTE POPUP SE MANTIENE) -->
   <div class="popup-request" id="popupRequest" aria-hidden="true">
     <div class="popup-inner" role="dialog" aria-modal="true">
       <button class="popup-close" onclick="hideRequestPopup()" aria-label="Close">✕</button>
@@ -148,35 +191,33 @@
   </div>
 
   <script>
-    // === CONTROL DE SCROLL & LOADER ===
+    // === CONFIGURACIÓN ===
+    const INITIAL_LOAD = 8;
+    const galleryData = {
+      digital: { images: [], expanded: false },
+      traditional: { images: [], expanded: false },
+      projects: { images: [], expanded: false }
+    };
+
+    // === LOADER & SCROLL ===
     document.addEventListener('DOMContentLoaded', () => {
-      // 1️⃣ Desactivar restauración automática del navegador
       if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-      
-      // 2️⃣ Forzar scroll al título inmediatamente
       window.scrollTo(0, 0);
-      
-      // 3️⃣ Bloquear scroll durante la animación
       document.body.style.overflow = 'hidden';
 
-      // 4️⃣ Cargar galerías en segundo plano
       loadGallery('gallery-digital', 'digital', 'Digital Art');
       loadGallery('gallery-traditional', 'traditional', 'Traditional Art');
       loadGallery('gallery-projects', 'projects', 'Special Projects');
 
-      // 5️⃣ Al terminar los 5s: ocultar loader, desbloquear scroll y re-forzar posición superior
       setTimeout(() => {
         document.getElementById('siteLoader').classList.add('hidden');
         document.body.style.overflow = '';
-        // Scroll instantáneo al banner para evitar saltos
         document.getElementById('page-top').scrollIntoView({ behavior: 'instant', block: 'start' });
       }, 5000);
 
-      // 6️⃣ Año actual
       document.getElementById('year').textContent = new Date().getFullYear();
     });
 
-    // === High-res fallback ===
     function highResPath(path) {
       if (!path) return path;
       const parts = path.split('.');
@@ -184,13 +225,13 @@
       return parts.slice(0, -1).join('.') + '@2x.' + parts.pop();
     }
 
-    // === Load Gallery from GitHub API ===
     async function loadGallery(containerId, folderName, sectionTitle) {
       const container = document.getElementById(containerId);
       try {
         const response = await fetch(`https://api.github.com/repos/dayowen/dayowen.github.io/contents/projects/${folderName}`);
         if (!response.ok) throw new Error('Not found');
         const files = await response.json();
+        
         const images = files
           .filter(file => file.type === 'file' && /\.(png|jpg|jpeg|gif|webp|svg)$/i.test(file.name))
           .sort((a, b) => {
@@ -198,95 +239,56 @@
             if (!isNaN(numA) && !isNaN(numB)) return numA - numB;
             return a.name.localeCompare(b.name);
           });
-        container.innerHTML = '';
-        if (images.length === 0) {
-          container.innerHTML = `<div class="gallery-loading">No images in ${sectionTitle} yet. 🌱</div>`;
-          return;
-        }
-        images.forEach((file, index) => {
-          const title = file.name.replace(/\.[^/.]+$/, "").replace(/[_-]/g, ' ');
-          const box = document.createElement('div');
-          box.className = 'image-box';
-          box.dataset.title = title;
-          box.dataset.desc = `${sectionTitle} • Piece #${index + 1}`;
-          box.dataset.img = file.download_url;
-          box.innerHTML = `<img class="thumb" src="${file.download_url}" alt="${title}" loading="lazy" /><div class="meta"><span class="title">${title}</span><span class="sub">#${index + 1}</span></div>`;
-          container.appendChild(box);
-        });
-        initGalleryInteractions();
+
+        galleryData[folderName].images = images.map((file, index) => ({
+          title: file.name.replace(/\.[^/.]+$/, "").replace(/[_-]/g, ' '),
+          url: file.download_url,
+          desc: `${sectionTitle} • Piece #${index + 1}`
+        }));
+
+        renderGallery(containerId, folderName, false);
       } catch (error) {
         console.error(`Error loading ${folderName}:`, error);
         container.innerHTML = `<div class="gallery-loading">Could not load ${sectionTitle}. Please refresh. 🍃</div>`;
       }
     }
 
-    // === Gallery Interactions ===
-    let galleryInitialized = false;
-    function initGalleryInteractions() {
-      if (galleryInitialized) return;
-      galleryInitialized = true;
-      const boxes = document.querySelectorAll('.image-box');
-      const hoverPreview = document.getElementById('hoverPreview');
-      const previewThumb = document.getElementById('previewThumb');
-      const previewTitle = document.getElementById('previewTitle');
-      const previewDesc = document.getElementById('previewDesc');
-      const popup = document.getElementById('popup');
-      const popupImg = document.getElementById('popup-img');
-      const popupTitle = document.getElementById('popup-title');
-      const popupDesc = document.getElementById('popup-desc');
-      const popupClose = document.getElementById('popup-close');
-
-      function positionPreview(x, y) {
-        const pad = 16, rect = hoverPreview.getBoundingClientRect();
-        let left = x + 20, top = y + 20;
-        if (left + rect.width + pad > window.innerWidth) left = x - rect.width - 20;
-        if (top + rect.height + pad > window.innerHeight) top = y - rect.height - 20;
-        hoverPreview.style.transform = `translate3d(${left}px, ${top}px, 0) scale(1)`;
+    function renderGallery(containerId, folderName, expanded) {
+      const container = document.getElementById(containerId);
+      const data = galleryData[folderName];
+      const images = data.images;
+      const count = expanded ? images.length : Math.min(INITIAL_LOAD, images.length);
+      
+      container.innerHTML = '';
+      for (let i = 0; i < count; i++) {
+        const img = images[i];
+        const box = document.createElement('div');
+        box.className = 'image-box';
+        box.innerHTML = `<img class="thumb" src="${img.url}" alt="${img.title}" loading="lazy" /><div class="meta"><span class="title">${img.title}</span><span class="sub">#${i + 1}</span></div>`;
+        container.appendChild(box);
       }
-
-      boxes.forEach(box => {
-        let showTimer = null;
-        box.addEventListener('mouseenter', e => {
-          if (window.matchMedia('(hover: none)').matches) return;
-          showTimer = setTimeout(() => {
-            const imgPath = box.dataset.img || box.querySelector('img.thumb')?.src || '';
-            const candidate = highResPath(imgPath);
-            previewThumb.src = candidate;
-            previewThumb.onerror = () => { previewThumb.onerror = null; previewThumb.src = imgPath; };
-            previewTitle.textContent = box.dataset.title || '';
-            previewDesc.textContent = box.dataset.desc || '';
-            hoverPreview.classList.add('active');
-            hoverPreview.setAttribute('aria-hidden', 'false');
-            positionPreview(e.clientX, e.clientY);
-          }, 120);
-        });
-        box.addEventListener('mousemove', e => { if (hoverPreview.classList.contains('active')) positionPreview(e.clientX, e.clientY); });
-        box.addEventListener('mouseleave', () => { clearTimeout(showTimer); hoverPreview.classList.remove('active'); hoverPreview.setAttribute('aria-hidden', 'true'); });
-        box.addEventListener('click', () => {
-          const imgPath = box.dataset.img || box.querySelector('img.thumb')?.src || '';
-          const candidate = highResPath(imgPath);
-          popupImg.src = candidate;
-          popupImg.onerror = () => { popupImg.onerror = null; popupImg.src = imgPath; };
-          popupTitle.textContent = box.dataset.title || '';
-          popupDesc.textContent = box.dataset.desc || '';
-          popup.classList.add('active');
-          popup.setAttribute('aria-hidden', 'false');
-          document.body.style.overflow = 'hidden';
-        });
-      });
-
-      function closePopup() {
-        popup.classList.remove('active');
-        popup.setAttribute('aria-hidden', 'true');
-        popupImg.src = '';
-        document.body.style.overflow = '';
-      }
-      popup.addEventListener('click', e => { if (e.target === popup) closePopup(); });
-      popupClose.addEventListener('click', closePopup);
-      document.addEventListener('keydown', e => { if (e.key === 'Escape' && popup.classList.contains('active')) closePopup(); });
-
-      if ('ontouchstart' in window || navigator.maxTouchPoints > 0) hoverPreview.style.display = 'none';
+      updateToggleButton(folderName);
     }
+
+    function updateToggleButton(folderName) {
+      const container = document.getElementById(`showmore-${folderName}`);
+      const data = galleryData[folderName];
+      const total = data.images.length;
+      
+      if (total <= INITIAL_LOAD) { container.innerHTML = ''; return; }
+
+      const isExpanded = data.expanded;
+      const arrow = isExpanded ? '▲' : '▼';
+      const text = isExpanded ? 'Load less' : 'Show more';
+      
+      container.innerHTML = `<button class="toggle-btn" onclick="toggleGallery('${folderName}')">${text} <span class="arrow">${arrow}</span></button>`;
+    }
+
+    window.toggleGallery = function(folderName) {
+      const data = galleryData[folderName];
+      data.expanded = !data.expanded;
+      renderGallery(`gallery-${folderName}`, folderName, data.expanded);
+    };
 
     // === Request Draw Popup ===
     function showRequestPopup() {
